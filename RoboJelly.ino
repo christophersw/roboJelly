@@ -2,7 +2,6 @@ void setup()
 {
 
   /* add setup code here */
-
 }
 
 void loop()
