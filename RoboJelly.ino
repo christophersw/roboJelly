@@ -6,10 +6,12 @@
 #define SERVO_PIN 7
 
 QueueList<byte> queue;
-SwimServo swimServo = SwimServo(7, 90, 210, 100, 5);
+SwimServo swimServo = SwimServo(7, 90, 210, 20, 5);
+int i = 0;
 
 void setup() {
 	queue.push(1);
+	pinMode(13, OUTPUT);
 }
 
 void loop() {
@@ -24,9 +26,11 @@ void runNext() {
 	byte next = queue.pop();
 
 	switch (next) {
-	case 1:
-		swimServo.Swim();
-		queue.push(1);
-		return;
+		case 1:
+			swimServo.Swim();
+			queue.push(1);
+			break;
+		default:
+			break;
 	}
 }

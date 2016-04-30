@@ -6,6 +6,8 @@ Released into the public domain.
 
 #include "Arduino.h"
 #include "SwimServo.h"
+#include "Servo.h"
+
 
 /**
 * Swim Servo Constructor
@@ -13,12 +15,12 @@ Released into the public domain.
 */
 SwimServo::SwimServo(int pin) {
 	_servoPin = pin;
-	_servo.attach(_servoPin);
 	_minAngle = 90;
 	_maxAngle = 210;
 	_timeDelay = 100;
 	_stepAmount = 5;
 	_currentPos = 90;
+	_lastRunTime = millis();
 }
 
 /**
@@ -29,15 +31,15 @@ SwimServo::SwimServo(int pin) {
 * @param	timeDelay   Total sweep time target (fastest allowed)
 * @param	stepAmount  Amount of each step action
 */
-SwimServo::SwimServo(int pin, int minAngle, int maxAngle, int timeDelay, int stepAmount)
+SwimServo::SwimServo(int pin, int minAngle, int maxAngle, long timeDelay, int stepAmount)
 {
 	_servoPin = pin;
-	_servo.attach(_servoPin);
 	_minAngle = minAngle;
 	_maxAngle = maxAngle;
 	_timeDelay = timeDelay;
 	_stepAmount = stepAmount;
 	_currentPos = 90;
+	_lastRunTime = millis();
 };
 
 /**
@@ -45,8 +47,11 @@ SwimServo::SwimServo(int pin, int minAngle, int maxAngle, int timeDelay, int ste
 */
 
 void SwimServo::Swim() {
+	static Servo servo = Servo();
+	servo.attach(_servoPin);
+
 	//If more time than min delay has expired, run
-	if (millis() > _lastRunTime + (_timeDelay / _stepAmount)) {
+	if (millis() > (_lastRunTime + _timeDelay)) {
 
 		if (_currentPos >= _maxAngle) {
 			_increase = false;
@@ -65,11 +70,10 @@ void SwimServo::Swim() {
 		}
 
 		_lastRunTime = millis();
-		_servo.write(_currentPos);
+		servo.write(_currentPos);
+		
 		return;
 	}
-	else
-	{
-		return;
-	}
+
+	return;
 };

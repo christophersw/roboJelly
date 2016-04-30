@@ -13,15 +13,14 @@
 class SwimServo {
 public:
 	SwimServo(int pin);
-	SwimServo(int pin, int minAngle, int maxAngle, int timeDelay, int stepAmount);
+	SwimServo(int pin, int minAngle, int maxAngle, long timeDelay, int stepAmount);
 	void Swim();
 
 private:
 	int _servoPin;
-	Servo _servo;
 	int _minAngle;
 	int _maxAngle;
-	int _timeDelay;
+	long _timeDelay;
 	int _stepAmount;
 	int _currentPos;
 	bool _increase;
