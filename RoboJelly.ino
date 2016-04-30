@@ -6,7 +6,7 @@
 #define SERVO_PIN 7
 
 QueueList<byte> queue;
-SwimServo swimServo = SwimServo(7, 90, 210, 20, 5);
+SwimServo swimServo = SwimServo(7, 90, 210, 70, 5);
 int i = 0;
 
 void setup() {
@@ -27,7 +27,7 @@ void runNext() {
 
 	switch (next) {
 		case 1:
-			swimServo.Swim();
+			swimServo.SwimRandom(1, 15);
 			queue.push(1);
 			break;
 		default:

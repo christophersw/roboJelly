@@ -77,3 +77,37 @@ void SwimServo::Swim() {
 
 	return;
 };
+
+void SwimServo::SwimRandom(int minStep, int maxStep) {
+	static Servo servo = Servo();
+	servo.attach(_servoPin);
+	
+	int randStepAmount = random(minStep, maxStep);
+
+	//If more time than min delay has expired, run
+	if (millis() > (_lastRunTime + _timeDelay)) {
+
+		if (_currentPos >= _maxAngle) {
+			_increase = false;
+		}
+
+		if (_currentPos <= _minAngle) {
+			_increase = true;
+		}
+
+		//Move up
+		if (_increase) {
+			_currentPos += randStepAmount;
+		}
+		else {
+			_currentPos -= randStepAmount;
+		}
+
+		_lastRunTime = millis();
+		servo.write(_currentPos);
+
+		return;
+	}
+
+	return;
+};

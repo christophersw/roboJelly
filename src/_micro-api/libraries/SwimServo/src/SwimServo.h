@@ -15,6 +15,7 @@ public:
 	SwimServo(int pin);
 	SwimServo(int pin, int minAngle, int maxAngle, long timeDelay, int stepAmount);
 	void Swim();
+	void SwimRandom(int minStep, int maxStep);
 
 private:
 	int _servoPin;
