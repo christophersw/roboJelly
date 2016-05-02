@@ -1,17 +1,25 @@
+#include <known_16bit_timers.h>
+#include <Adafruit_TiCoServo.h>
+#include "BodyLights.h"
 #include "SwimServo.h"
 #include <QueueList.h>
-#include <Servo.h>
 
-#define LED_PIN 2
-#define SERVO_PIN 7
+#define LED_PIN 3
+
 
 QueueList<byte> queue;
-SwimServo swimServo = SwimServo(7, 90, 210, 70, 5);
-int i = 0;
+SwimServo swimServo = SwimServo(9, 100);
+BodyLights bodyLights = BodyLights(LED_PIN);
+
+bool bodyLightFade = true;
+bool swim = true;
 
 void setup() {
+	bodyLights.setColor(random(75, 255), random(86, 255), random(99, 255), 255);
+	bodyLights.setTimeDelay(50);
+
 	queue.push(1);
-	pinMode(13, OUTPUT);
+	queue.push(2);
 }
 
 void loop() {
@@ -26,9 +34,20 @@ void runNext() {
 	byte next = queue.pop();
 
 	switch (next) {
+		// Jelly Swim
 		case 1:
-			swimServo.SwimRandom(1, 15);
-			queue.push(1);
+			if (swim == true) {
+				swimServo.Swim(10, 5);
+				queue.push(1);
+			}
+			break;
+			
+		// Jelly Body Light Fade in and Out
+		case 2:
+			if (bodyLightFade == true) {
+				bodyLights.fadeInAndOut();
+				queue.push(2);
+			}
 			break;
 		default:
 			break;
