@@ -43,18 +43,20 @@ void SwimServo::Swim(int speed, int amount) {
 			max++;
 
 			if (max > amount) {
-				Serial.println("increasing");
+				Serial.print("increasing: ");
+				Serial.println(max);
 				increasing = false;
-				servo.write(90 + speed);
+				servo.write(90 - speed * 1.1);
 			}
 		}
 		else {
 			max--;
 
-			if (max <= 0) {
-				Serial.println("decreasing");
+			if (max <= 1) {
+				Serial.print("decreasing: ");
+				Serial.println(max);
 				increasing = true;
-				servo.write(90 - speed);
+				servo.write(90 + speed);
 			}
 		}
 

@@ -59,7 +59,7 @@ void BodyLights::fadeInAndOut(int minBrightness, int maxBrightness)
 			_increase = false;
 		}
 
-		if (_brightness <= minBrightness + _stepAmount) {
+		if (_brightness <= (minBrightness + _stepAmount * 3)) {
 			_increase = true;
 		}
 
@@ -76,6 +76,7 @@ void BodyLights::fadeInAndOut(int minBrightness, int maxBrightness)
 
 		_updateColors();
 		_strip.show();
+		_lastRunTime = millis();
 
 		return;
 	}

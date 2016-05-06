@@ -8,16 +8,17 @@
 
 
 QueueList<byte> queue;
-SwimServo swimServo = SwimServo(9, 100);
+SwimServo swimServo = SwimServo(9, 50);
 BodyLights bodyLights = BodyLights(LED_PIN);
 
 bool bodyLightFade = true;
 bool swim = true;
 
-void setup() {
-	bodyLights.setColor(random(75, 255), random(86, 255), random(99, 255), 255);
-	bodyLights.setTimeDelay(50);
 
+void setup() {
+	randomSeed(1239098091237234);
+	bodyLights.setColor(random(30, 35), random(240, 255), random(80, 85), 255);
+	bodyLights.setTimeDelay(50);
 	queue.push(1);
 	queue.push(2);
 }
@@ -37,7 +38,7 @@ void runNext() {
 		// Jelly Swim
 		case 1:
 			if (swim == true) {
-				swimServo.Swim(10, 5);
+				swimServo.Swim(20, 65);
 				queue.push(1);
 			}
 			break;
