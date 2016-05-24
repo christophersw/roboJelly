@@ -14,11 +14,13 @@ class SwimServo {
 public:
 	SwimServo(int pin, long timeDelay);
 	void Swim(int speed, int amount);
+	void Reverse();
 
 private:
 	int _servoPin;
 	long _timeDelay;
 	long _lastRunTime;
+	bool _direction;
 };
 
 #endif
