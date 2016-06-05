@@ -122,11 +122,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ArmLights.h" />
     <ClInclude Include="src\_micro-api\libraries\BodyLights\src\BodyLights.h" />
     <ClInclude Include="src\_micro-api\libraries\SwimServo\src\SwimServo.h" />
     <ClInclude Include="__vm\.RoboJelly.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ArmLights.cpp" />
     <ClCompile Include="src\_micro-api\libraries\BodyLights\src\BodyLights.cpp" />
     <ClCompile Include="src\_micro-api\libraries\SwimServo\src\SwimServo.cpp" />
   </ItemGroup>

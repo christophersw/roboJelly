@@ -87,6 +87,7 @@ void BodyLights::fadeInAndOut(int minBrightness, int maxBrightness)
 void BodyLights::_updateColors()
 {
 	for (int x = 0; x<_strip.numPixels(); x++) {
-		_strip.setPixelColor(x, _r, _g, _b);
+		// Note correction here... g, r, b....
+		_strip.setPixelColor(x, _g, _r, _b);
 	}
 }

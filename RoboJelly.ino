@@ -2,18 +2,19 @@
 #include <Adafruit_TiCoServo.h>
 #include "BodyLights.h"
 #include "SwimServo.h"
+#include "ArmLights.h"
 #include <QueueList.h>
 
-#define LED_PIN 3
 const byte SWIM_STOP_SWITCH_PIN = 2;
 
 QueueList<byte> queue;
-SwimServo swimServo = SwimServo(9, 50);
-BodyLights bodyLights = BodyLights(LED_PIN);
+SwimServo swimServo = SwimServo(5, 50);
+BodyLights bodyLights = BodyLights(3);
+ArmLights armLights = ArmLights(11, 10, 9);
 
 //variables to keep track of the timing of recent interrupts
-unsigned long button_time = 0;
-unsigned long last_button_time = 0;
+volatile unsigned long button_time = 0;
+volatile unsigned long last_button_time = millis();
 
 byte bodyLightFade = HIGH;
 volatile byte swim = HIGH;
@@ -22,13 +23,14 @@ void setup() {
 	Serial.begin(9600);
 	Serial.println("Initializing");
 
-	attachInterrupt(0, swimSwitch, FALLING);
+	//attachInterrupt(0, swimSwitch, CHANGE);
 
-	randomSeed(1239098091237234);
-	bodyLights.setColor(random(30, 35), random(240, 255), random(80, 85), 255);
+	randomSeed(1091237234);
 	bodyLights.setTimeDelay(50);
 	queue.push(1);
 	queue.push(2);
+	queue.push(3);
+	queue.push(4);
 }
 
 void loop() {
@@ -64,16 +66,42 @@ void runNext() {
 				queue.push(2);
 			}
 			break;
+		case 3:
+			//armLights.fadeInAndOut(0, 255);
+			queue.push(3);
+			break;
+		case 4:
+			randoColors();
+			queue.push(4);
+			break;
 		default:
 			break;
+	}
+}
+
+void randoColors() {
+	static int x = 0; 
+
+	if (x == 0) {
+		int r = random(0, 255);
+		int g = random(0, 255);
+		int b = random(0, 255);
+
+		bodyLights.setColor(r, g, b);
+		armLights.setColor(r, g, b);
+		x = 1000;
+	}
+	else {
+		x--;
 	}
 }
 
 void swimSwitch() {
 	button_time = millis();
 	//check to see if increment() was called in the last 250 milliseconds
-	if (button_time - last_button_time > 250)
+	if (button_time - last_button_time > 1000)
 	{
+		Serial.println("running");
 		swim = HIGH;
 		digitalWrite(13, HIGH);
 		last_button_time = button_time;

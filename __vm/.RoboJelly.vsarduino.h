@@ -64,6 +64,8 @@ extern "C" void __cxa_pure_virtual() {;}
 #define portInputRegister(P)
 #define portModeRegister(P)
 #include <..\RoboJelly\RoboJelly.ino>
+#include <..\RoboJelly\ArmLights.cpp>
+#include <..\RoboJelly\ArmLights.h>
 #include <src\_micro-api\libraries\BodyLights\src\BodyLights.cpp>
 #include <src\_micro-api\libraries\BodyLights\src\BodyLights.h>
 #include <src\_micro-api\libraries\SwimServo\src\SwimServo.cpp>
