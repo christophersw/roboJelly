@@ -5,10 +5,9 @@
 #include "ArmLights.h"
 #include <QueueList.h>
 
-const byte SWIM_STOP_SWITCH_PIN = 2;
 
 QueueList<byte> queue;
-SwimServo swimServo = SwimServo(5, 50);
+SwimServo swimServo = SwimServo(9, 50);
 BodyLights bodyLights = BodyLights(3);
 ArmLights armLights = ArmLights(11, 10, 9);
 
@@ -23,7 +22,7 @@ void setup() {
 	Serial.begin(9600);
 	Serial.println("Initializing");
 
-	//attachInterrupt(0, swimSwitch, CHANGE);
+	attachInterrupt(0, swimSwitch, RISING);
 
 	randomSeed(1091237234);
 	bodyLights.setTimeDelay(50);
@@ -97,8 +96,9 @@ void randoColors() {
 }
 
 void swimSwitch() {
+	Serial.println(button_time - last_button_time);
 	button_time = millis();
-	//check to see if increment() was called in the last 250 milliseconds
+	//check to see if swimSwitch() was called in the last 250 milliseconds
 	if (button_time - last_button_time > 1000)
 	{
 		Serial.println("running");
